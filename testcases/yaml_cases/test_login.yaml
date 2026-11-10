@@ -1,0 +1,69 @@
+# ============================================================
+# YAML 测试用例示例 - 登录（通用，需对接真实有登录功能的 APP）
+#
+# 演示更复杂的步骤编排：参数化 + 多种断言 + 截图
+# 真实使用时，把 locator 的 resource_id 改成目标 APP 的元素即可
+# ============================================================
+- case_name: test_yaml_login_success
+  feature: 登录模块
+  story: 正向登录
+  severity: P0
+  marks: [smoke, P0]
+  description: YAML 编排的登录正向流程，参数化两套账号。
+  data:
+    - id: 账号1
+      user: admin
+      pwd: "123456"
+    - id: 账号2
+      user: tester
+      pwd: test1234
+  steps:
+    - keyword: launch_app
+      description: 启动 APP
+    - keyword: clear_input
+      description: 输入用户名 ${user}
+      locator: { resource_id: "com.demo.app:id/et_username" }
+      text: ${user}
+    - keyword: clear_input
+      description: 输入密码 ${pwd}
+      locator: { resource_id: "com.demo.app:id/et_password" }
+      text: ${pwd}
+    - keyword: screenshot
+      description: 登录前截图
+      name: 登录前_${user}
+    - keyword: click
+      description: 点击登录按钮
+      locator: { resource_id: "com.demo.app:id/btn_login" }
+    - keyword: wait
+      description: 等待欢迎页
+      locator: { resource_id: "com.demo.app:id/tv_welcome" }
+      seconds: 8
+    - keyword: assert_text
+      description: 校验欢迎文案
+      locator: { resource_id: "com.demo.app:id/tv_welcome" }
+      expected: 欢迎
+    - keyword: screenshot
+      description: 登录后截图
+      name: 登录成功_${user}
+
+- case_name: test_yaml_login_wrong_password
+  feature: 登录模块
+  story: 反向登录-密码错误
+  severity: P1
+  marks: [regression, P1]
+  description: 密码错误应出现错误提示。
+  steps:
+    - keyword: launch_app
+    - keyword: clear_input
+      locator: { resource_id: "com.demo.app:id/et_username" }
+      text: admin
+    - keyword: clear_input
+      locator: { resource_id: "com.demo.app:id/et_password" }
+      text: wrongpwd
+    - keyword: click
+      locator: { resource_id: "com.demo.app:id/btn_login" }
+    - keyword: assert_exists
+      description: 校验出现错误提示
+      locator: { resource_id: "com.demo.app:id/tv_error" }
+    - keyword: screenshot
+      name: 密码错误提示

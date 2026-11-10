@@ -1,0 +1,28 @@
+# APP UI 自动化测试框架依赖
+# Python 3.8+ 推荐（本机为 3.14，均兼容）
+
+# 设备驱动
+uiautomator2>=3.2.0        # Android UI2 驱动
+adbutils>=2.0.5            # adb 封装
+
+# 测试框架
+pytest>=7.4.0
+pytest-rerunfailures>=12.0  # 失败重试
+pytest-xdist>=3.3.0        # 多进程并行
+pytest-ordering>=0.6       # 用例执行顺序
+pytest-dependency>=0.5.1   # 用例依赖
+
+# 报告
+allure-pytest>=2.13.0      # Allure 适配器
+allure-python-commons>=2.13.0
+
+# 数据处理
+PyYAML>=6.0
+openpyxl>=3.1.0            # Excel 读写
+
+# 日志与工具
+loguru>=0.7.0              # 日志库
+requests>=2.31.0           # 通用 HTTP
+
+# 可选：远程设备/图像处理（如需）
+# pillow>=10.0.0

@@ -1,0 +1,13 @@
+# ============================================================
+# 日志配置 - 用于 loguru
+# 说明：日志文件与测试报告完全分离存放于 logs/ 目录
+# ============================================================
+log:
+  level: "INFO"
+  console: true
+  file: true
+  rotation: "10 MB"
+  retention: "7 days"
+  compression: "zip"
+  encoding: "utf-8"
+  format: "{time:YYYY-MM-DD HH:mm:ss.SSS} | {level: <8} | {file}:{line} | {message}"

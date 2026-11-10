@@ -1,0 +1,74 @@
+# ============================================================
+# YAML 测试用例示例 - Settings 搜索（关键字驱动，零代码维护）
+#
+# 字段说明：
+#   case_name:   用例函数名（必须 test_ 开头才会被 pytest 收集）
+#   feature:     Allure feature
+#   story:       Allure story
+#   severity:    P0/P1/P2/P3 -> 自动映射 Allure severity
+#   marks:       pytest mark 列表，如 [smoke, P0, regression]
+#   description: 用例说明（写入 Allure description）
+#   data:        参数化数据（每行一个 dict），用 ${var} 在 steps 中引用
+#   steps:       步骤列表，每步含 keyword + 定位器/参数
+#                完整关键字清单见 README「关键字清单」
+# ============================================================
+- case_name: test_yaml_search_bluetooth
+  feature: 首页搜索
+  story: 关键字搜索蓝牙
+  severity: P0
+  marks: [smoke, P0]
+  description: 通过 YAML 编排，搜索蓝牙并校验结果，验证关键字驱动链路。
+  data:
+    - id: 蓝牙正向
+      keyword: 蓝牙
+      expect: 蓝牙
+  steps:
+    - keyword: launch_app
+      description: 启动 Settings
+    - keyword: sleep
+      seconds: 1
+    - keyword: click
+      description: 打开搜索框
+      locator: { resource_id: "com.android.settings:id/search_action_bar" }
+    - keyword: input
+      description: 输入搜索关键字 ${keyword}
+      locator: { resource_id: "com.android.settings:id/search_input" }
+      text: "${keyword}"
+    - keyword: sleep
+      seconds: 1
+    - keyword: assert_exists
+      description: 校验结果中存在包含 ${expect} 的项
+      locator: { text: "${expect}" }
+    - keyword: screenshot
+      description: 记录搜索结果
+      name: 搜索结果_${keyword}
+    - keyword: press_back
+      description: 退出搜索
+
+- case_name: test_yaml_search_wifi
+  feature: 首页搜索
+  story: 关键字搜索 WLAN
+  severity: P1
+  marks: [regression, P1]
+  description: 搜索 WLAN 关键字，验证搜索链路与中文显示。
+  data:
+    - id: WLAN正向
+      keyword: WLAN
+      expect: WLAN
+  steps:
+    - keyword: launch_app
+      description: 启动 Settings
+    - keyword: sleep
+      seconds: 1
+    - keyword: click
+      locator: { resource_id: "com.android.settings:id/search_action_bar" }
+    - keyword: input
+      locator: { resource_id: "com.android.settings:id/search_input" }
+      text: ${keyword}
+    - keyword: sleep
+      seconds: 1
+    - keyword: assert_exists
+      locator: { text_contains: "${expect}" }
+    - keyword: screenshot
+      name: WLAN搜索结果
+    - keyword: press_back

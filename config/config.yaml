@@ -1,0 +1,71 @@
+# ============================================================
+# APP UI 自动化测试框架 - 主配置文件
+# 说明：所有运行参数集中在此，修改无需改代码
+# ============================================================
+
+# ---------------- 设备配置 ----------------
+device:
+  # 连接方式: usb / wifi
+  connect_type: usb
+  # wifi 连接时使用（connect_type=wifi 时生效）
+  device_ip: ""
+  # 指定设备序列号；留空则自动取第一个已连接设备
+  serial: ""
+  # 是否在启动时自动初始化 atx-agent
+  auto_init: true
+  # settings 配置（uiautomator2 的 set_up）
+  settings:
+    wait_timeout: 10          # 元素等待超时(秒)
+    click_timeout: 5
+    operation_delay: 0        # 操作间隔
+    operation_delay_methods: []
+    # 是否在每条用例结束后重置应用
+    reset_app: false
+
+# ---------------- 被测 APP 配置 ----------------
+app:
+  package_name: "com.android.settings"
+  activity: ""                 # 可空，u2 可自动拉起
+  # 是否在每条用例前重启 APP
+  restart_per_case: false
+  # 是否保留数据（False=clear data）
+  keep_data: true
+
+# ---------------- 全局超时/重试 ----------------
+timing:
+  implicitly_wait: 10         # 全局隐式等待(秒)
+  retry_times: 0              # 失败重试次数（也可用 @pytest.mark.flaky）
+  retry_delay: 2              # 重试间隔(秒)
+
+# ---------------- 路径配置 ----------------
+path:
+  base_dir: ""                # 留空=项目根目录；运行时自动解析
+  log_dir: "logs"
+  report_dir: "reports"
+  allure_results: "reports/allure-results"
+  allure_html: "reports/allure-html"
+  screenshot_dir: "reports/screenshots"
+
+# ---------------- 日志级别 ----------------
+log:
+  level: "INFO"               # DEBUG/INFO/WARNING/ERROR
+  console: true
+  file: true
+  rotation: "10 MB"
+  retention: "7 days"
+  encoding: "utf-8"
+
+# ---------------- 用例过滤（冒烟/优先级） ----------------
+case_filter:
+  # 默认运行所有；如需只跑冒烟，可设 mark: smoke
+  mark: ""
+  # 关键字过滤用例名
+  keyword: ""
+
+# ---------------- 测试过程监测 ----------------
+monitor:
+  enable: true
+  # 是否在控制台实时打印用例状态
+  realtime_print: true
+  # 汇总结果文件（json）
+  summary_file: "reports/summary.json"

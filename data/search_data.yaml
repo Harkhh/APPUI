@@ -1,0 +1,19 @@
+# ============================================================
+# 测试数据 - Settings 搜索参数化数据（业务数据分离）
+#
+# 结构：顶层 key = 用例方法名片段；加载见
+#   utils.yaml_utils.load_case_data(file, "search_cases")
+# ============================================================
+search_cases:
+  - id: 蓝牙
+    keyword: 蓝牙
+    expect_in_results: true
+  - id: WLAN
+    keyword: WLAN
+    expect_in_results: true
+  - id: 不存在项
+    keyword: zzz不存在的关键字zzz
+    expect_in_results: false
+  - id: 显示
+    keyword: 显示
+    expect_in_results: true

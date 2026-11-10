@@ -1,0 +1,55 @@
+# ============================================================
+# Allure 报告定制配置（中文 / 分类 / 环境信息）
+# 说明：通过此 YAML 预配置 Allure 报告页面的展示内容，
+#       无需手改 environment.properties / categories.json。
+# 运行入口 run.py 会自动读取本文件并生成对应 Allure 元数据。
+# ============================================================
+
+# ---------------- 语言/标题定制 ----------------
+title: "APP UI 自动化测试报告"
+language: "zh"            # 中文输出，Allure 页面语言
+subtitle: "Android 自动化测试结果总览"
+document_name: "测试报告"
+
+# ---------------- 顶部环境信息（environment.properties） ----------------
+environment:
+  项目名称: "APP UI 自动化测试框架"
+  测试平台: "Android (uiautomator2)"
+  测试框架: "pytest + Allure"
+  设备信息: "自动读取"
+  APP 包名: "自动读取"
+  测试执行人: "QA Team"
+  执行环境: "CI / 本地"
+  备注: "由 config/allure_config.yaml 预配置生成"
+
+# ---------------- 报告分组/分类（categories.json） ----------------
+# 失败原因分组，便于在报告中对缺陷归类
+categories:
+  - name: "断言失败"
+    matchedStatuses: ["failed"]
+    messageRegex: "AssertionError.*"
+  - name: "元素未找到/超时"
+    matchedStatuses: ["failed", "broken"]
+    messageRegex: ".*[Tt]imeout|NotFound|UiObjectNotFoundError.*"
+  - name: "设备/驱动异常"
+    matchedStatuses: ["broken"]
+    messageRegex: ".*[Dd]evice|adb|atx-agent.*"
+  - name: "已知缺陷-跳过"
+    matchedStatuses: ["skipped"]
+    messageRegex: ".*"
+
+# ---------------- 优先级标记展示（severity） ----------------
+# 与 pytest.mark.P0/P1/P2 配合；Allure severity 默认英文，这里映射中文
+severity_map:
+  blocker: "阻塞 (P0)"
+  critical: "关键 (P0)"
+  normal: "常规 (P1)"
+  minor: "次要 (P2)"
+  trivial: "轻微 (P3)"
+
+# ---------------- 报告展示开关 ----------------
+display:
+  show_environment: true
+  show_categories: true
+  show_history: false       # 需 allure-history 插件
+  show_trend: false
